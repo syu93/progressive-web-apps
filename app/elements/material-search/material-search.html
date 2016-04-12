@@ -29,6 +29,7 @@
 
   paper-toolbar {
     background-color: white;
+    color: red;
   }
 
   input {
@@ -37,6 +38,11 @@
     font: inherit;
     font-size: 16px;
     outline: none;
+  }
+
+  paper-input {
+    --paper-input-container-color: var(--paper-grey-500);
+    width: 100%;
   }
 
   @media (min-width: 600px) {
@@ -58,12 +64,11 @@
   }
 </style>
 <template>
-  <paper-header-panel mode="standard" class="fit">
-    <paper-toolbar class$="{{_computeHeaderClass(narrow)}}">
+  <paper-header-panel class="fit">
+    <paper-toolbar justify>
       <paper-icon-button icon="arrow-back" on-tap="toggle"></paper-icon-button>
-      <input id="searchbox" placeholder="Search mail" class="flex"
-             value="{{searchValue::change}}"
-             on-keyup="doSearch">
+      <div class="space"></div>
+        <!-- <paper-input id="searchbox" label="Search" class="space" value="{{searchValue::change}}" on-keyup="doSearch"></paper-input> -->
       <paper-icon-button icon="av:mic" on-tap="getSpeechInput"></paper-icon-button>
     </paper-toolbar>
     <paper-menu on-iron-activate="onSelect">

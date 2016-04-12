@@ -51,14 +51,14 @@
   <style is="custom-style" include="shared-styles"></style>
 </head>
 
-<body unresolved>
+<body class="fullbleed layout vertical">
   <!-- build:remove -->
   <span id="browser-sync-binding"></span>
   <!-- endbuild -->
 
   <template is="dom-bind" id="app">
-  <material-search id="search" class="fit"></material-search>
-    <paper-drawer-panel id="paperDrawerPanel">
+    <material-search id="search" class="fit"></material-search>
+    <paper-drawer-panel id="paperDrawerPanel" force-narrow>
       <!-- Drawer Scroll Header Panel -->
       <paper-scroll-header-panel drawer fixed>
 
@@ -70,7 +70,7 @@
         </paper-toolbar>
 
         <!-- Drawer Content -->
-        <paper-menu class="app-menu" attr-for-selected="data-route" selected="[[route]]">
+        <paper-menu class="app-menu" attr-for-selected="data-route" selected="[[route]]" >
           <a data-route="home" href="{{baseUrl}}">
             <iron-icon icon="home"></iron-icon>
             <span>Home</span>
@@ -101,18 +101,7 @@
         <div class="content">
           <iron-pages attr-for-selected="data-route" selected="{{route}}">
             <section data-route="home" tabindex="-1">
-
-              <paper-material elevation="1">
-                <!-- <google-map-directions map="{{map}}"
-                    start-address="242 Rue du Faubourg Saint-Antoine, 75012 Paris"
-                    end-address="Place de la Nation, Paris"
-                    travel-mode="DRIVING"
-                ></google-map-directions>
-                <google-map map="{{map}}"
-                    latitude="37.779"
-                    longitude="-122.3892"
-                ></google-map> -->
-              </paper-material>
+              <open-maps></open-maps>
             </section>
 
             <section data-route="users" tabindex="-1">
