@@ -1,0 +1,117 @@
+<link rel="import" href="../../bower_components/google-map/google-map.html">
+<link rel="import" href="../../bower_components/google-map/google-map-directions.html">
+<link rel="import" href="../../bower_components/google-map/google-map-search.html">
+
+<link rel="import" href="../../bower_components/google-map-markerclusterer/google-map-markerclusterer.html">
+<dom-module id="open-maps">
+	<template>
+		<style>
+			:host {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+			paper-material {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+			google-map {
+				display: block;
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+		<open-data-api clusterprecision="[[zoom]]" data="{{data}}"></open-data-api>
+		<paper-material elevation="4">
+			<google-map-markerclusterer id="cluster" map="{{map}}" markers="[[markers]]"></google-map-markerclusterer>
+			<!-- <google-map-directions map="{{map}}"
+			    start-address=""
+			    end-address=""
+			    travel-mode="[[travelMode]]"
+			></google-map-directions> -->
+			<google-map-search
+				id="mapSearch"
+				map="[[map]]"
+				query="Paris, France"
+				results="{{results}}"
+			></google-map-search>
+			<google-map
+				disable-default-ui
+				zoom="{{zoom}}"
+				map="{{map}}"
+			    latitude="[[_scope.latitude]]"
+			    longitude="[[_scope.longitude]]"
+			    language="en"
+			>
+			</google-map>
+		</paper-material>
+	</template>
+	<script>
+		Polymer({
+			is: 'open-maps',
+			properties: {
+				map: {
+					observer: '_mapChanged'
+				},
+				markers: {
+					value: []
+				},
+				zoom: {
+					notify: true,
+					value: 12
+				},
+				results: {
+					observer: '_resultsChanged'
+				},
+				data: {
+					observer: '_dataChanged'
+				},
+				_travelMode: {
+					value: "DRIVING"
+				},
+				_scope: {
+
+				},
+
+			},
+			listener: {
+				'google-map-dragend': '_googleMapMoved'
+			},
+			_dataChanged: function (e) {
+				console.log(this.data.records);
+				console.log(this.markers);
+				for (var i = 0; i < this.data.records.length; i++) {
+				};
+			},
+			_mapChanged: function (e) {
+				console.info("Map is ready !");
+			},
+			_googleMapMoved: function (e) {
+				console.log('Map moved ...');
+			},
+			_resultsChanged: function (e) {
+				this._initMap(this.results);
+			},
+			/**
+			 * Init the map to the default searched location
+			 * if it return only one result
+			 * @param  {Object} searchResults Result object of google-map-search
+			 */
+			_initMap : function (searchResults) {
+				if (searchResults.length == 1) {
+					console.info("Initialize the map ...");
+					this._scope = searchResults[0];
+					// console.log(this._scope);
+					this.$.mapSearch.getDetails(this._scope.place_id)
+					.then(function (argument) {
+						// console.log(argument);
+					})
+					.catch(function (err) {
+						// console.log(err);
+					});
+				}
+			}
+		});
+	</script>
+</dom-module>

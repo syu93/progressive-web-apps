@@ -1,0 +1,42 @@
+<link rel="import" href="../../bower_components/iron-ajax/iron-ajax.html">
+<dom-module id="open-data-api">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+		</style>
+		<iron-ajax
+		 	auto
+		 	params="[[params]]"
+		 	url="[[_apiEndPoint]]"
+		 	handle-as="json"
+		 	on-response="handleResponse"></iron-ajax>
+	</template>
+	<script>
+		Polymer({
+			is: 'open-data-api',
+			properties: {
+				_apiEndPoint: {
+					value: "http://opendata.paris.fr/api/records/1.0/search/"
+				},
+				params: {
+					type: Object,
+					value: {dataset: "stationnement-voie-publique-emplacements",clusterprecision: 12, rows: 100}
+				},
+				clusterprecision: {
+					observer: '_precisionChanged'
+				},
+				data: {
+					notify: true,
+				}
+			},
+			handleResponse: function (e) {
+				this.data = e.detail.response;
+			},
+			_precisionChanged: function (e) {
+				console.log('variable');
+			}
+		});
+	</script>
+</dom-module>
